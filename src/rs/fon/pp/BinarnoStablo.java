@@ -83,10 +83,64 @@ public class BinarnoStablo {
 		Cvor pointer=neki;
 		while(pointer!=root){
 			if(visina(nadjiRoditelja(root,pointer).left)-visina(nadjiRoditelja(root,pointer).right)==2){
+				Cvor a=nadjiRoditelja(root, pointer);
 				if(visina(pointer.left)-visina(pointer.right)==-1){
-					
+					a.left=pointer.right;
+					pointer.right=null;
+					a.left.left=pointer;
 				}
+				Cvor b=nadjiRoditelja(root, a);
+				if(b!=null){
+					if(b.left==a){
+						b.left=a.left;
+						pointer.right=a;
+						a.left=null;
+					}
+					if(b.right==a){
+						b.right=a.left;
+						pointer.right=a;
+						a.left=null;
+					}	
+				}
+				if(b==null){
+					a.left=pointer.right;
+					pointer.right=a;
+					root=pointer;
+				}
+				return;
 			}
+			
+			
+			if(visina(nadjiRoditelja(root,pointer).left)-visina(nadjiRoditelja(root,pointer).right)==-2){
+				Cvor a=nadjiRoditelja(root, pointer);
+				if(visina(pointer.left)-visina(pointer.right)==1){
+					a.right=pointer.left;
+					pointer.left=null;
+					a.right.right=pointer;
+				}
+				Cvor b=nadjiRoditelja(root, a);
+				if(b!=null){
+					if(b.left==a){
+						b.left=a.right;
+						pointer.left=a;
+						a.right=null;
+					}
+					if(b.right==a){
+						b.right=a.right;
+						pointer.left=a;
+						a.right=null;
+					}	
+				}
+				if(b==null){
+					a.right=pointer.left;
+					pointer.left=a;
+					root=pointer;
+				}
+				return;
+			}
+			
+			if(nadjiRoditelja(root, pointer)==root)
+				return;
 			pointer=nadjiRoditelja(root, pointer);
 		}
 		
